@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Input, Button, Text, Image } from "react-native-elements";
+import { Input, Button, Text, Image, CheckBox } from "react-native-elements";
 
 export default function Login(props) {
   const [signUp, setSignUp] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   return signUp ? (
     <View style={styles.container}>
@@ -11,6 +12,10 @@ export default function Login(props) {
         <View style={{ display: "flex", width: 400}}>
           <Input placeholder="Nome Completo" />
           <Input placeholder="Email" />
+          <View style={{display: 'flex', flexDirection: 'row'}}>
+            <CheckBox title="Produtor" checked={checked} onPress={()=>setChecked(!checked)}/>
+            <CheckBox title="Comprador" checked={!checked} onPress={()=>setChecked(!checked)}/>
+          </View>
           <Input
             placeholder="Senha"
             leftIcon={{ type: "font-awesome", name: "eye" }}
