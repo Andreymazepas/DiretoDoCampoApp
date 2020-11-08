@@ -1,13 +1,16 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Button } from "react-native-elements";
+import { Button, Header } from "react-native-elements";
+import Container from './container';
 
 export default function Home(props) {
   return (
+    <Container {...props} >
     <View style={styles.container}>
       <Text>oi</Text>
       <Button title="voltar" onPress={()=>props.navigation.goBack()} />
     </View>
+    </Container>
   );
 }
 
