@@ -4,6 +4,6 @@
 
 ```yarn```
 
-```expo start```
+```expo start -c```
 
 ```w```
