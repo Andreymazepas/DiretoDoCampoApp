@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, ScrollView, Alert, Text, Dimensions } from "react-native";
 import { Input, Button, Image, ButtonGroup } from "react-native-elements";
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AsyncStorage } from 'react-native';
 import { Assets } from "./assets";
 import { getUserRemote, signup, storeUser } from 'shared';
 

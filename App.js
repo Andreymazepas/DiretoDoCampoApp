@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 // FIREBASE DATABASE
 import * as firebase from 'firebase';
 var config = {
-  apiKey: "",
+  apiKey: "AIzaSyCQpu6GbrQN5vUyFwYbcEhlkp5Dv6d_GC8",
   authDomain: "diretodocampo-98030.firebaseapp.com",
   databaseURL: "https://diretodocampo-98030.firebaseio.com",
   projectId: "diretodocampo-98030",
