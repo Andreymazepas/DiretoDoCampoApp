@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-import { Header, Input, ButtonGroup, Button } from "react-native-elements";
+import { Header, Input, ButtonGroup, Button, Avatar } from "react-native-elements";
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import { addProduct } from 'shared';
+import { Assets, ProductNames } from '../assets';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -42,17 +43,22 @@ const CadastrarProdutos = (props) => {
             <View style={styles.container}>
                 <ScrollView>
                     <Text>Escolha o produto</Text>
-                    <View style={{ borderBottomWidth: 1, borderColor: 'rgba(0,0,0,0.4)', margin: 7 }}>
+                    <View style={{display: 'flex', flexDirection: 'row'}}>
+                    <View style={{ borderBottomWidth: 1, borderColor: 'rgba(0,0,0,0.4)', margin: 7, flex: 9 }}>
                         <Picker
                             selectedValue={product}
                             onValueChange={(itemValue, itemIndex) =>
                                 setProduct(itemValue)
                             }>
-                            <Picker.Item label="Banana" value="Banana" />
-                            <Picker.Item label="Tomate" value="Tomate" />
-                            <Picker.Item label="Cenoura" value="Cenoura" />
-                            <Picker.Item label="Couve" value="Couve" />
+                            {Object.keys(ProductNames).map((key, i) => (
+                                <Picker.Item key={key + i} label={ProductNames[key]} value={key} />
+                            ))}
                         </Picker>
+                        </View>
+                        <View style={{flex: 1, padding: 10}}>
+                        {product && 
+                        <Avatar source={Assets[product]} />}
+                        </View>
                     </View>
                     <View style={{ margin: 10 }} />
                     <Text>Preço/kg</Text>
