@@ -59,7 +59,7 @@ export default function Login() {
             style={{ height: 50 }}
             placeholder=" Nome de usuário"
             leftIcon={{ type: "font-awesome", name: "user" }}
-            onChangeText={value => setUsername(value)}
+            onChangeText={value => setUsername(value.trim())}
           />
           <Input
             disabled

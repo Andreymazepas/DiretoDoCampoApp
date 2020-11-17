@@ -11,7 +11,7 @@ const getUserLocal = async () => {
 const getUserRemote = async (user) => {
     let data = null;
     try {
-        firebase.database().ref('users/' + user.role + '/' + user.username).on('value', snapshot => {
+        await firebase.database().ref('users/' + user.role + '/' + user.username).once('value', snapshot => {
             data = snapshot.val();
         });
     } catch (e) { return null; }
@@ -47,6 +47,22 @@ const signup = async (user) => {
     } catch (e) { return null; }
 }
 
+const getFarmName = async () => {
+    console.log("getFarmName")
+    const user = await getUserLocal();
+    let data = null;
+    try {
+        firebase.database().ref('users/Produtor/' + user.username).once('value', snapshot => {
+            data = snapshot.val();
+            console.log("FarmName", data);
+        })
+    } catch (e) { console.log(e) }
+    if (!data.farmName) {
+        return "Fazendinha Cogumelinho";
+    }
+    return data.farmName;
+}
+
 const addProduct = async (prod) => {
     console.log("addProduct")
     const user = await getUserLocal();
@@ -63,12 +79,44 @@ const getProducts = async () => {
     const user = await getUserLocal();
     let data = null;
     try {
-        firebase.database().ref('products/' + user.username).on('value', snapshot => {
+        await firebase.database().ref('products/' + user.username).once('value', snapshot => {
             data = snapshot.val();
-            console.log("prod", data)
-        });
+        })
     } catch (e) { return null; }
     return data;
+}
+
+const deleteProduct = async (key) => {
+    console.log("deleteProduct")
+    const user = await getUserLocal();
+    try {
+        console.log(key)
+        firebase.database().ref('products/' + user.username).child(key).remove();
+        console.log("foi")
+    } catch (e) { }
+}
+
+const getAllProducts = async () => {
+    console.log("getAllProducts")
+    let prod_data = [];
+    try {
+        await firebase.database().ref('products/')
+            .once('value', function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    var key = childSnapshot.key;
+                    var value = childSnapshot.val();
+                    Object.keys(value).map((k, i) => {
+                        prod_data.push({ key: k, data: value[k] })
+                    })
+                })
+            })
+    } catch (e) { return null; }
+    console.log("list prod_data", prod_data)
+    if (prod_data.length > 0) {
+        return prod_data;
+    } else {
+        return null;
+    }
 }
 
 export {
@@ -76,6 +124,9 @@ export {
     getUserRemote,
     signup,
     storeUser,
+    getFarmName,
     addProduct,
-    getProducts
+    getProducts,
+    deleteProduct,
+    getAllProducts,
 }

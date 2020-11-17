@@ -8,6 +8,8 @@ import MinhaFazenda from 'screens_prod/MinhaFazenda';
 import Produtos from 'screens_prod/Produtos';
 import CadastrarProdutos from 'screens_prod/CadastrarProdutos';
 
+import Home from 'screens_comp/Home';
+
 const Drawer_P = createDrawerNavigator();
 const Drawer_C = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -51,7 +53,7 @@ export default function App() {
   function CompradorDrawer() {
     return (
       <Drawer_C.Navigator>
-        <Drawer_P.Screen name="Minha Fazenda" component={MinhaFazenda} />
+        <Drawer_P.Screen name="Home" component={Home} />
         <Drawer_P.Screen name="Sair" component={Login} />
       </Drawer_C.Navigator>
     );
