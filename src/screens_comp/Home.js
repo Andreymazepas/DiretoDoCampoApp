@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback, Alert } from "react-native";
-import Container from "components/container";
-import { Avatar, Header, ListItem, BottomSheet, Icon } from "react-native-elements";
+import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
+import { Avatar, Header, ListItem, BottomSheet, SearchBar } from "react-native-elements";
 import { getAllProducts } from "shared";
 import { useFocusEffect } from "@react-navigation/native";
 import { Assets, ProductNames } from "assets";
@@ -10,8 +9,8 @@ import { ScrollView } from "react-native-gesture-handler";
 const Home = (props) => {
     const [productsData, setProductsData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [isVisible, setIsVisible] = useState(false);
-    const [refresh, setRefresh] = useState(false);
+    const [search, setSearch] = useState('');
+   
 
     useEffect(() => {
         setProductsData(productsData);
@@ -27,17 +26,6 @@ const Home = (props) => {
             })();
         }, [])
     );
-
-    const optionsList = [
-        { title: "Editar item", onPress: () => alert("editar item") },
-        { title: "Apagar Item", onPress: () => alert("apagar item") },
-        {
-            title: "Cancelar",
-            containerStyle: { backgroundColor: "red" },
-            titleStyle: { color: "white" },
-            onPress: () => setIsVisible(false),
-        },
-    ];
 
     return (
         <>
@@ -58,13 +46,22 @@ const Home = (props) => {
             />
             <ScrollView>
                 <View style={styles.container}>
+                    <SearchBar
+                        placeholder="Pesquisar produto..."
+                        onChangeText={setSearch}
+                        value={search}
+                        lightTheme
+                    />
                     {productsData &&
-                        productsData.map(prod => (
+                        productsData
+                            .filter(
+                            p => ProductNames[p.data.product].toLowerCase().includes(search.toLowerCase())
+                            )
+                            .map(prod => (
                             <TouchableWithoutFeedback key={prod.key}>
                                 <ListItem
                                     key={prod.key}
                                     bottomDivider
-                                // onPress={() => setIsVisible(true)}
                                 >
                                     <Avatar source={Assets[prod.data.product]} />
                                     <ListItem.Content>
@@ -90,19 +87,7 @@ const Home = (props) => {
                         ))}
                 </View>
             </ScrollView>
-            <BottomSheet isVisible={isVisible}>
-                {optionsList.map((l, i) => (
-                    <ListItem
-                        key={i}
-                        containerStyle={l.containerStyle}
-                        onPress={l.onPress}
-                    >
-                        <ListItem.Content>
-                            <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
-                        </ListItem.Content>
-                    </ListItem>
-                ))}
-            </BottomSheet>
+           
         </>
     );
 };
