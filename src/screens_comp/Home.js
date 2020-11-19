@@ -55,11 +55,6 @@ const Home = (props) => {
                     backgroundColor: "#206a5d",
                     justifyContent: "space-around",
                 }}
-                rightComponent={{
-                    icon: "add",
-                    color: "#fff",
-                    onPress: () => props.navigation.navigate("Cadastrar Produtos"),
-                }}
             />
             <ScrollView>
                 <View style={styles.container}>
