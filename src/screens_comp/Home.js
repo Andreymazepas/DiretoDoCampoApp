@@ -50,6 +50,7 @@ const Home = (props) => {
                         placeholder="Pesquisar produto..."
                         onChangeText={setSearch}
                         value={search}
+                        platform="android"
                         lightTheme
                     />
                     {productsData &&
@@ -68,9 +69,6 @@ const Home = (props) => {
                                         <ListItem.Title>
                                             {ProductNames[prod.data.product]}
                                         </ListItem.Title>
-                                        <ListItem.Subtitle>{`R$ ${parseFloat(
-                                            prod.data.price
-                                        ).toFixed(2)}`}</ListItem.Subtitle>
                                         <ListItem.Subtitle>
                                             {prod.data.entrega}
                                         </ListItem.Subtitle>
@@ -82,6 +80,10 @@ const Home = (props) => {
                                             {prod.data.farmName ? prod.data.farmName : "-"}
                                         </ListItem.Subtitle>
                                     </ListItem.Content>
+                                    <ListItem.Subtitle style={{fontWeight: 'bold', fontSize: 16 }}>{`R$ ${parseFloat(
+                                            prod.data.price
+                                        ).toFixed(2)}`}</ListItem.Subtitle>
+                                        <ListItem.Chevron />
                                 </ListItem>
                             </TouchableWithoutFeedback>
                         ))}
