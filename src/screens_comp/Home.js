@@ -59,10 +59,13 @@ const Home = (props) => {
                             p => ProductNames[p.data.product].toLowerCase().includes(search.toLowerCase())
                             )
                             .map(prod => (
-                            <TouchableWithoutFeedback key={prod.key}>
+                            <TouchableWithoutFeedback 
+                                key={prod.key} 
+                                >
                                 <ListItem
                                     key={prod.key}
                                     bottomDivider
+                                    onPress={() => props.navigation.navigate("Descrição Produto", prod.data)}
                                 >
                                     <Avatar source={Assets[prod.data.product]} />
                                     <ListItem.Content>

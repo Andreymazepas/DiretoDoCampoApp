@@ -7,6 +7,7 @@ import Login from './src/login';
 import MinhaFazenda from 'screens_prod/MinhaFazenda';
 import Produtos from 'screens_prod/Produtos';
 import CadastrarProdutos from 'screens_prod/CadastrarProdutos';
+import DescricaoProduto from 'screens_comp/DescricaoProduto';
 
 import Home from 'screens_comp/Home';
 
@@ -70,6 +71,7 @@ export default function App() {
         <Stack.Screen name="ProdutorDrawer" component={ProdutorDrawer} />
         <Stack.Screen name="CompradorDrawer" component={CompradorDrawer} />
         <Stack.Screen name="Cadastrar Produtos" component={CadastrarProdutos} />
+        <Stack.Screen name="Descrição Produto" component={DescricaoProduto} />
       </Stack.Navigator>
     </NavigationContainer>
   );
