@@ -15,6 +15,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Assets, ProductNames } from "assets";
 import { ScrollView } from "react-native-gesture-handler";
 import NumericInput from "react-native-numeric-input";
+import { addOrder } from "../shared";
 
 const DescricaoProduto = (props) => {
   const [description, setDescription] = useState("");
@@ -43,6 +44,20 @@ const DescricaoProduto = (props) => {
       })();
     }, [])
   );
+
+  const handleAdd = async () => {
+    if(quantity < 1){
+        alert('Quantidade não pode ser menor que 1!');
+        return;
+    }
+    await addOrder({
+        product,
+        quantity,
+        date: new Date().toLocaleDateString()
+    })
+    alert('Produto adicionado com sucesso!')
+    props.navigation.goBack();
+}
 
   return (
     <>
@@ -110,7 +125,7 @@ const DescricaoProduto = (props) => {
                 R$ {(parseFloat(product.price) * quantity).toFixed(2)}
               </Text2>
             </View>
-            <Button title="Adicionar ao Carrinho" buttonStyle={{ backgroundColor: '#81b214', fontSize: 20 }} raised />
+            <Button title="Adicionar ao Carrinho" buttonStyle={{ backgroundColor: '#81b214', fontSize: 20 }} raised onPress={() => handleAdd()} />
           </View>
         </View>
       </ScrollView>

@@ -63,6 +63,30 @@ const getFarmName = async () => {
     return data.farmName;
 }
 
+const addOrder = async (order) => {
+    console.log("addOrder")
+    const user = await getUserLocal();
+    try {
+        firebase
+            .database()
+            .ref('compOrders/' + user.username)
+            .push(order);
+
+    } catch (e) { return null; }
+}
+
+const getOrders = async () => {
+    console.log("getOrders")
+    const user = await getUserLocal();
+    let data = null;
+    try {
+        await firebase.database().ref('compOrders/' + user.username).once('value', snapshot => {
+            data = snapshot.val();
+        })
+    } catch (e) { return null; }
+    return data;
+}
+
 const addProduct = async (prod) => {
     console.log("addProduct")
     const user = await getUserLocal();
@@ -129,4 +153,6 @@ export {
     getProducts,
     deleteProduct,
     getAllProducts,
+    addOrder,
+    getOrders
 }

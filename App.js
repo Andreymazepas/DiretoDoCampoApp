@@ -8,6 +8,7 @@ import MinhaFazenda from 'screens_prod/MinhaFazenda';
 import Produtos from 'screens_prod/Produtos';
 import CadastrarProdutos from 'screens_prod/CadastrarProdutos';
 import DescricaoProduto from 'screens_comp/DescricaoProduto';
+import MeusPedidos from 'screens_comp/MeusPedidos';
 
 import Home from 'screens_comp/Home';
 
@@ -55,6 +56,7 @@ export default function App() {
     return (
       <Drawer_C.Navigator>
         <Drawer_P.Screen name="Home" component={Home} />
+        <Drawer_P.Screen name="Meus Pedidos" component={MeusPedidos} />
         <Drawer_P.Screen name="Sair" component={Login} />
       </Drawer_C.Navigator>
     );
