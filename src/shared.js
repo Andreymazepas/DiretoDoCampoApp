@@ -86,8 +86,27 @@ const addOrder = async (order) => {
             .database()
             .ref('users/' + user.role + '/' + user.username + '/orders')
             .push(order);
+        
+        firebase
+            .database()
+            .ref('farms/' + order.product.farmName + '/orders')
+            .push({...order, buyer: user.username});
 
     } catch (e) { return null; }
+}
+
+const getFarmOrders = async () => {
+    console.log("getFarmOrders")
+    const user = await getUserLocal();
+    const farmName = await getFarmName();
+    console.log(user)
+    let data = null;
+    try {
+        await firebase.database().ref('farms/' + farmName + '/orders').once('value', snapshot => {
+            data = snapshot.val();
+        })
+    } catch (e) { return null; }
+    return data;
 }
 
 const getOrders = async () => {
@@ -170,5 +189,6 @@ export {
     getAllProducts,
     addOrder,
     getOrders,
-    setFarmName
+    setFarmName,
+    getFarmOrders
 }

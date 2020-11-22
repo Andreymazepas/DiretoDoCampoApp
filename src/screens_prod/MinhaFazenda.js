@@ -3,11 +3,15 @@ import { StyleSheet, View } from "react-native";
 import { Button, Input, Overlay, Text } from "react-native-elements";
 import Container from 'components/container';
 import { getDataRemote, setFarmName as apiSetFarmName } from 'shared';
+import { getFarmOrders } from "../shared";
+import { ProductNames } from "../assets";
 
 export default function MinhaFazenda(props) {
     const [showSetFarm, setShowSetFarm] = useState(false);
     const [farmName, setFarmName] = useState('');
     const [user, setUser] = useState({});
+    const [orders, setOrders] = useState([]);
+
     useEffect(() => {
         (async function f() {
             let data = await getDataRemote();
@@ -15,6 +19,9 @@ export default function MinhaFazenda(props) {
             if(!data.farmName) {
                 setShowSetFarm(true);
             }
+            let orders = await getFarmOrders();
+            setOrders(orders);
+            console.log(orders);
         })();
     }, []);
 
@@ -45,17 +52,12 @@ export default function MinhaFazenda(props) {
             <View style={styles.container}>
                 <Text>Nome</Text>
                 <Text h3>{user.farmName}</Text>
-                <View style={{ margin: 8 }} />
-                <Text>Estatísticas</Text>
-                <Text h3>0 vendas nos últimos 30 dias</Text>
-                <View style={{ margin: 8 }} />
-                <Text>Faturamento Total</Text>
-                <Text h3>R$ 00,00</Text>
-                <View style={{ margin: 8 }} />
-                <Text>Gráficos</Text>
-                <Text h3>-</Text>
-                <Text h3>-</Text>
-                <Text h3>-</Text>
+                <Text>Pedidos</Text>
+                {Object.keys(orders).map(orderKey => (
+                    <Text h4 key={orderKey}>
+                        {`${orders[orderKey].buyer} comprou ${orders[orderKey].quantity} x ${ProductNames[orders[orderKey].product.product]}! `}
+                    </Text>
+                ))}
             </View>
         </Container>
     );
