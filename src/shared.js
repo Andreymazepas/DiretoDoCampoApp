@@ -48,6 +48,20 @@ const signup = async (user) => {
     } catch (e) { return null; }
 }
 
+const setFarmName = async (farmName) => {
+    console.log(setFarmName);
+    const user = await getUserLocal();
+    try {
+        firebase
+            .database()
+            .ref('users/' + user.role + '/' + user.username)
+            .set({
+                farmName,
+                role: user.role
+            });
+    } catch(e) {return null;}
+}
+
 const getFarmName = async () => {
     console.log("getFarmName")
     const user = await getUserLocal();
@@ -155,5 +169,6 @@ export {
     deleteProduct,
     getAllProducts,
     addOrder,
-    getOrders
+    getOrders,
+    setFarmName
 }
