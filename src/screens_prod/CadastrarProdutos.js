@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Header, Input, ButtonGroup, Button, Avatar } from "react-native-elements";
+import { TextInputMask } from 'react-native-masked-text';
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Assets, ProductNames } from 'assets';
@@ -18,12 +19,18 @@ const CadastrarProdutos = (props) => {
     const [selectedIndex_1, setSelectedIndex_1] = useState(0)
     const [product, setProduct] = useState("apple");
     const [price, setPrice] = useState("");
+    const moneyValue = 0;
 
     const handleAdd = async () => {
+        let numericPrice = moneyValue.getRawValue();
+        if(numericPrice < 0.01){
+            alert('Valor do produto não pode ser menor que R$0,01!');
+            return;
+        }
         let farmName = await getFarmName();
         await addProduct({
             product,
-            price,
+            numericPrice,
             entrega: buttons[selectedIndex],
             compra: buttons_1[selectedIndex_1],
             farmName
@@ -66,10 +73,25 @@ const CadastrarProdutos = (props) => {
                     <Text>Preço/kg</Text>
                     <Input
                         style={{ height: 50 }}
-                        placeholder="R$"
-                        onChangeText={value => setPrice(value)}
-                        keyboardType="numeric"
+                        InputComponent={
+                            <TextInputMask
+                                type={'money'}
+                                options={{
+                                    precision: 2,
+                                    separator: ',',
+                                    delimiter: '.',
+                                    unit: 'R$',
+                                    suffixUnit: ''
+                                }}
+                                value={price}
+                                onChangeText={text => {
+                                    setPrice(text)
+                                }}
+                                ref={(ref) => moneyvalue = ref}
+                        />
+                        }
                     />
+                    
                     <Text>Modalidade de entrega</Text>
                     <View style={{ margin: 5 }} />
                     <ButtonGroup
