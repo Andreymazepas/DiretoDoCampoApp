@@ -26,6 +26,7 @@ const getDataRemote = async () => {
             data = snapshot.val();
         });
     } catch (e) { return null; }
+    console.log('user', data);
     return data;
 }
 
@@ -69,7 +70,7 @@ const addOrder = async (order) => {
     try {
         firebase
             .database()
-            .ref('compOrders/' + user.username)
+            .ref('users/' + user.role + '/' + user.username + '/orders')
             .push(order);
 
     } catch (e) { return null; }
@@ -80,7 +81,7 @@ const getOrders = async () => {
     const user = await getUserLocal();
     let data = null;
     try {
-        await firebase.database().ref('compOrders/' + user.username).once('value', snapshot => {
+        await firebase.database().ref('users/' + user.role + '/' + user.username + '/orders').once('value', snapshot => {
             data = snapshot.val();
         })
     } catch (e) { return null; }
