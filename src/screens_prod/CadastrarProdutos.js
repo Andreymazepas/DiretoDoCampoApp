@@ -19,7 +19,7 @@ const CadastrarProdutos = (props) => {
     const [selectedIndex_1, setSelectedIndex_1] = useState(0)
     const [product, setProduct] = useState("apple");
     const [price, setPrice] = useState("");
-    const moneyValue = 0;
+    let moneyValue = 0;
 
     const handleAdd = async () => {
         let numericPrice = moneyValue.getRawValue();
@@ -30,7 +30,7 @@ const CadastrarProdutos = (props) => {
         let farmName = await getFarmName();
         await addProduct({
             product,
-            numericPrice,
+            price: numericPrice,
             entrega: buttons[selectedIndex],
             compra: buttons_1[selectedIndex_1],
             farmName
@@ -71,10 +71,9 @@ const CadastrarProdutos = (props) => {
                     </View>
                     <View style={{ margin: 10 }} />
                     <Text>Preço/kg</Text>
-                    <Input
-                        style={{ height: 50 }}
-                        InputComponent={
-                            <TextInputMask
+                    <View style={{height: 50, border: '1px solid black'}}>
+
+                    <TextInputMask
                                 type={'money'}
                                 options={{
                                     precision: 2,
@@ -83,14 +82,15 @@ const CadastrarProdutos = (props) => {
                                     unit: 'R$',
                                     suffixUnit: ''
                                 }}
+                                customTextInput={Input}
                                 value={price}
                                 onChangeText={text => {
                                     setPrice(text)
                                 }}
-                                ref={(ref) => moneyvalue = ref}
+                                ref={(ref) => moneyValue = ref}
                         />
-                        }
-                    />
+                    </View>
+
                     
                     <Text>Modalidade de entrega</Text>
                     <View style={{ margin: 5 }} />
