@@ -13,25 +13,28 @@ import Container from "components/container";
 import { getDataRemote, setFarmName as apiSetFarmName } from "shared";
 import { getFarmOrders } from "../shared";
 import { ProductNames, Assets } from "../assets";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function MinhaFazenda(props) {
   const [showSetFarm, setShowSetFarm] = useState(false);
   const [farmName, setFarmName] = useState("");
   const [user, setUser] = useState({});
   const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    (async function f() {
-      let data = await getDataRemote();
-      setUser(data);
-      if (!data.farmName) {
-        setShowSetFarm(true);
-      }
-      let orders = await getFarmOrders();
-      setOrders(orders);
-      console.log(orders);
-    })();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      (async function f() {
+        let data = await getDataRemote();
+        setUser(data);
+        // if (!data.farmName) {
+        //   console.log(data);
+        //   setShowSetFarm(true);
+        // }
+        let orders = await getFarmOrders();
+        setOrders(orders);
+        console.log(orders);
+      })();
+    }, [])
+  );
 
   const handleSave = async () => {
     if (farmName.length < 6) {

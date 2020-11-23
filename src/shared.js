@@ -26,7 +26,6 @@ const getDataRemote = async () => {
             data = snapshot.val();
         });
     } catch (e) { return null; }
-    console.log('user', data);
     return data;
 }
 
@@ -43,13 +42,14 @@ const signup = async (user) => {
             .database()
             .ref('users/' + user.role + '/' + user.username)
             .set({
+                farmName: "Fazenda " + user.username,
                 role: user.role
             });
     } catch (e) { return null; }
 }
 
 const setFarmName = async (farmName) => {
-    console.log(setFarmName);
+    console.log("setFarmName");
     const user = await getUserLocal();
     try {
         firebase
@@ -59,7 +59,7 @@ const setFarmName = async (farmName) => {
                 farmName,
                 role: user.role
             });
-    } catch(e) {return null;}
+    } catch (e) { return null; }
 }
 
 const getFarmName = async () => {
@@ -69,11 +69,10 @@ const getFarmName = async () => {
     try {
         firebase.database().ref('users/Produtor/' + user.username).once('value', snapshot => {
             data = snapshot.val();
-            console.log("FarmName", data);
         })
     } catch (e) { console.log(e) }
     if (!data.farmName) {
-        return "Fazendinha Cogumelinho";
+        return "Fazenda " + user.username;
     }
     return data.farmName;
 }
@@ -86,20 +85,19 @@ const addOrder = async (order) => {
             .database()
             .ref('users/' + user.role + '/' + user.username + '/orders')
             .push(order);
-        
+
         firebase
             .database()
             .ref('farms/' + order.product.farmName + '/orders')
-            .push({...order, buyer: user.username});
+            .push({ ...order, buyer: user.username });
 
     } catch (e) { return null; }
 }
 
 const getFarmOrders = async () => {
-    console.log("getFarmOrders")
+    console.log("getFarmOrders", 'farms/' + farmName + '/orders')
     const user = await getUserLocal();
     const farmName = await getFarmName();
-    console.log(user)
     let data = null;
     try {
         await firebase.database().ref('farms/' + farmName + '/orders').once('value', snapshot => {
@@ -148,9 +146,7 @@ const deleteProduct = async (key) => {
     console.log("deleteProduct")
     const user = await getUserLocal();
     try {
-        console.log(key)
         firebase.database().ref('products/' + user.username).child(key).remove();
-        console.log("foi")
     } catch (e) { }
 }
 
@@ -169,7 +165,6 @@ const getAllProducts = async () => {
                 })
             })
     } catch (e) { return null; }
-    console.log("list prod_data", prod_data)
     if (prod_data.length > 0) {
         return prod_data;
     } else {
