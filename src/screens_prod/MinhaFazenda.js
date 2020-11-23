@@ -33,7 +33,7 @@ export default function MinhaFazenda(props) {
     })();
   }, []);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (farmName.length < 6) {
       Alert.alert(
         "",
@@ -43,7 +43,7 @@ export default function MinhaFazenda(props) {
       );
       return;
     }
-    apiSetFarmName(farmName);
+    await apiSetFarmName(farmName);
     setUser({ ...user, farmName });
     setShowSetFarm(false);
   };
@@ -52,14 +52,20 @@ export default function MinhaFazenda(props) {
     <Container {...props}>
       <Overlay isVisible={showSetFarm}>
         <View style={{ flex: 1, padding: 30, justifyContent: "center" }}>
+          <Text h2>
+            Nome da sua fazenda
+          </Text>
           <Text h4>
             Opa, parece que você ainda não deu nome à sua fazenda, insira no
             campo abaixo o nome
           </Text>
           <Input
             onChangeText={(value) => setFarmName(value.trim())}
-            placeholder="Insira o nome. ex.'Fazenda Cogumelinho'"
+            placeholder="ex.'Fazenda Cogumelinho'"
           />
+          <Text>
+            No mínimo 6 caractéres
+          </Text>
           <Button onPress={handleSave} title="Salvar" />
         </View>
       </Overlay>
@@ -70,7 +76,7 @@ export default function MinhaFazenda(props) {
         <Text h3>{orders ? Object.keys(orders).length : 0}</Text>
         <Text>Pedidos</Text>
 
-        {orders ? 
+        {orders ?
           Object.keys(orders).map((orderKey) => (
             // <Text h4 key={orderKey}>
             //     {`${orders[orderKey].buyer} comprou ${orders[orderKey].quantity} x ${ProductNames[orders[orderKey].product.product]}! `}
@@ -79,7 +85,7 @@ export default function MinhaFazenda(props) {
               <Avatar source={Assets[orders[orderKey].product.product]} />
               <ListItem.Content>
                 <ListItem.Title>
-                {`${orders[orderKey].buyer} comprou ${orders[orderKey].quantity} x ${ProductNames[orders[orderKey].product.product]}!`}
+                  {`${orders[orderKey].buyer} comprou ${orders[orderKey].quantity} x ${ProductNames[orders[orderKey].product.product]}!`}
                 </ListItem.Title>
                 <ListItem.Subtitle>
                   Pedido em:{" "}
@@ -98,7 +104,7 @@ export default function MinhaFazenda(props) {
                 style={{ fontWeight: "bold", fontSize: 16, color: 'green' }}
               >{`R$ ${parseFloat(
                 orders[orderKey].product.price *
-                  orders[orderKey].quantity
+                orders[orderKey].quantity
               ).toFixed(2)}`}</ListItem.Subtitle>
             </ListItem>
           )) : <Text h4>Você ainda não tem pedidos...</Text>}
