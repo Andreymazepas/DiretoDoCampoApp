@@ -22,7 +22,7 @@ const getDataRemote = async () => {
     const user = await getUserLocal();
     let data = null;
     try {
-        firebase.database().ref('users/' + user.role + '/' + user.username).on('value', snapshot => {
+        await firebase.database().ref('users/' + user.role + '/' + user.username).once('value', snapshot => {
             data = snapshot.val();
         });
     } catch (e) { return null; }
