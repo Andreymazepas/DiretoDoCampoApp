@@ -80,7 +80,7 @@ const DescricaoProduto = (props) => {
         <View style={styles.container}>
           <Card>
             <Card.Title>
-              <View style={{ display: "flex", flexDirection: "row" }}>
+              <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                 <Avatar source={Assets[product.product]} size="medium" />
                 <Text2 h3 style={{ textAlignVertical: "center" }}>
                   {ProductNames[product.product]}
