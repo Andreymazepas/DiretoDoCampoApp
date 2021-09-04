@@ -64,17 +64,20 @@ const setFarmName = async (farmName) => {
 
 const getFarmName = async () => {
     console.log("getFarmName")
+    console.log("debug 1;");
     const user = await getUserLocal();
+    console.log("debug 2;");
     let data = null;
     try {
         firebase.database().ref('users/Produtor/' + user.username).once('value', snapshot => {
             data = snapshot.val();
+            farmName = data.farmName;
         })
     } catch (e) { console.log(e) }
-    if (!data.farmName) {
+    if (!data?.farmName) {
         return "Fazenda " + user.username;
     }
-    return data.farmName;
+    return farmName;
 }
 
 const addOrder = async (order) => {

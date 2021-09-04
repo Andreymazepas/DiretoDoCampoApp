@@ -17,20 +17,17 @@ const Drawer_C = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 // FIREBASE DATABASE
-import * as firebase from 'firebase';
-var config = {
+import firebase from 'firebase/app'
+var firebaseConfig  = {
   apiKey: "AIzaSyCQpu6GbrQN5vUyFwYbcEhlkp5Dv6d_GC8",
   authDomain: "diretodocampo-98030.firebaseapp.com",
   databaseURL: "https://diretodocampo-98030.firebaseio.com",
   projectId: "diretodocampo-98030",
   storageBucket: "diretodocampo-98030.appspot.com",
   messagingSenderId: "1027933216321",
-  appId: "1:1027933216321:web:e023811fac0c71ae46f0c0"
+  appId: "1:1027933216321:web:fb3ac512da3623c146f0c0"
 };
-if (!firebase.apps.length) {
-  firebase.initializeApp(config);
-}
-//
+firebase.initializeApp(firebaseConfig);
 
 
 export default function App() {

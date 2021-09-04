@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import {
   Button,
   Input,
@@ -65,13 +65,14 @@ export default function MinhaFazenda(props) {
           <Input
             onChangeText={(value) => setFarmName(value.trim())}
             placeholder="ex.'Fazenda Cogumelinho'"
-          />
+            />
           <Text>
             No mínimo 6 caractéres
           </Text>
           <Button onPress={handleSave} title="Salvar" />
         </View>
       </Overlay>
+    <ScrollView>
       <View style={styles.container}>
         <Text>Nome</Text>
         <Text h3>{user && user.farmName}</Text>
@@ -112,6 +113,7 @@ export default function MinhaFazenda(props) {
             </ListItem>
           )) : <Text h4>Você ainda não tem pedidos...</Text>}
       </View>
+      </ScrollView>
     </Container>
   );
 }
